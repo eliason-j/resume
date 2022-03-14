@@ -1,0 +1,197 @@
+---
+title: "Jacob Eliason's CV"
+author: Jacob Z. Eliason
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: true
+output:
+  pagedown::html_resume:
+    css: ['dd_cv.css', 'resume.css']
+    self_contained: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+
+library(magrittr) # For the pipe
+source("cv_printing_functions.r")
+
+# Read in all data and initialize a CV printer object
+CV <- create_CV_object(
+  data_location = "https://docs.google.com/spreadsheets/d/1XIW0Dl4PT6uPTHl8WjU0iXlIhCGcCLGJCIVBBcQChJ4/edit?usp=sharing",  
+  pdf_mode = params$pdf_mode,
+  resume_mode = TRUE 
+)
+
+r_exp <- lubridate::year(lubridate::today())-2016
+```
+
+
+```{r}
+# When in pdf export mode the little dots are unaligned, so fix that with some conditional CSS.
+if(params$pdf_mode) {
+    cat("
+<style>
+:root{
+  --decorator-outer-offset-left: -6.5px;
+}
+</style>")
+}
+```
+
+
+Aside
+================================================================================
+
+<!-- ![headshot](headshot.png) -->
+
+<!-- ```{r} -->
+<!-- # Build interactive network of positions colored by section -->
+<!-- # and connected if they occurred in the same year -->
+<!-- # datadrivencv::build_network_logo(CV$entries_data) -->
+<!-- ``` -->
+
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_contact_info()
+```
+
+<br>
+<br>
+
+Programming Languages 
+--------------------------------------------------------------------------------
+
+**Advanced**  
+R (`r r_exp` years of academic and professional experience)  
+\ \   
+**Intermediate**  
+SAS, SQL, Unix  
+\ \   
+**Beginning**  
+C++, Python  
+
+<br>
+<br>
+
+```{r}
+# CV %>% print_skill_bars()
+```
+
+Selected Undergraduate Coursework {#coursework}
+--------------------------------------------------------------------------------
+
+**37.5 credit hours in statistics**  
+discrete & continuous probability and inference, statistical programming (R, SAS, Unix), analysis of variance, introduction & applied Bayesian statistics, introduction to regression, nonparametric methods, analysis of correlated data   
+\ \   
+**17 credit hours in mathematics**  calculus (differential, integral, vector/multivariable), linear algebra, fundamentals of mathematics  
+
+<br>
+<br>
+
+<!-- Disclaimer {#disclaimer} -->
+<!-- -------------------------------------------------------------------------------- -->
+
+Made using the R packages [datadrivencv](https://github.com/nstrayer/datadrivencv) and [pagedown](https://github.com/rstudio/pagedown).
+
+The source code is available on [my Github](https://github.com/eliason-j/resume).
+
+Last updated on `r Sys.Date()`.
+
+
+
+```{r}
+if(params$pdf_mode){
+  cat("View this CV online with links at _jacobeliason.com/cv/_")
+} else {
+  # cat("[<i class='fas fa-download'></i> Download a PDF of this CV](https://github.com/eliason-j/resume/blob/main/jacob-eliason-cv.pdf)")
+  cat("View this CV online with links at [jacobeliason.com/cv/](https://jacobeliason.com/cv/)")
+}
+```
+
+
+Main
+================================================================================
+
+Jacob Z. Eliason {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+# Note the special double pipe so we modify the CV object in place
+CV %<>% print_text_block("intro") 
+```
+
+
+
+<!-- Education {data-icon=graduation-cap data-concise=true} -->
+Education{data-icon=NULL}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('education')
+```
+
+
+<!-- Industry Experience {data-icon=suitcase} -->
+Industry Experience{data-icon=NULL}
+--------------------------------------------------------------------------------
+
+
+```{r}
+CV %<>% print_section('industry_positions')
+```
+
+
+<!-- Research Experience {data-icon=laptop} -->
+Research Experience{data-icon=NULL}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('research_positions')
+```
+
+
+<!-- Teaching Experience {data-icon=chalkboard-teacher} -->
+Teaching Experience{data-icon=NULL}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('teaching_positions')
+```
+
+<!-- ::: aside -->
+<!-- # ```{r} -->
+<!-- # CV %<>% print_text_block('teaching_experience_aside') -->
+<!-- ``` -->
+<!-- ::: -->
+
+
+
+
+<!-- Publications, Posters, and Talks {data-icon=book} -->
+Publications, Posters, and Talks{data-icon=NULL}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('posters')
+```
+
+Recognition {data-icon=NULL}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('recognition')
+```
+
+
+```{r}
+CV %<>% print_links()
+```
+

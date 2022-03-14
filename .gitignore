@@ -37,3 +37,10 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Specific to this repo
+.DS_Store
+/html-versions/
+/pdf-versions/
+offline-change-log.md
+index.html
